@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "title": "Köp öl",
+    "completed": true
+  },
+  {
+    "id": 2,
+    "title": "Gör klart React Native projektet",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "title": "Läs klart Hail Mary",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "title": "Städa hemma",
+    "completed": false
+  },
+  {
+    "id": 5,
+    "title": "Exercise for 30 minutes",
+    "completed": false
+  }
+]
