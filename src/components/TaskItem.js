@@ -10,7 +10,14 @@ const TaskItem = ({ item, checkedOnOff }) => {
         onPress={() => checkedOnOff(item.id)}
         color="green"
       />
-      <Text style={styles.title}>{item.title}</Text>
+      <View style={styles.itemContainer}>
+        <Text style={styles.title}>{item.title}</Text>
+        {item.deadline && (
+          <Text style={styles.deadline}>
+            Deadline: {new Date(item.deadline).toLocaleDateString()}
+          </Text>
+        )}
+      </View>
     </View>
   );
 };
@@ -21,9 +28,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
   },
+  itemContainer: {
+    flex: 1,
+  },
   title: {
-    marginLeft: 10,
     fontSize: 16,
+  },
+  deadline: {
+    fontSize: 12,
+    marginTop: 2,
+    color: 'red',
   },
 });
 
