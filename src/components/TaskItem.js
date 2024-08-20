@@ -1,24 +1,37 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
+import { Swipeable } from 'react-native-gesture-handler';
 
-const TaskItem = ({ item, checkedOnOff }) => {
+const TaskItem = ({ item, checkedOnOff, onEdit }) => {
   return (
-    <View style={styles.container}>
-      <Checkbox
-        status={item.completed ? 'checked' : 'unchecked'}
-        onPress={() => checkedOnOff(item.id)}
-        color="green"
-      />
-      <View style={styles.itemContainer}>
-        <Text style={styles.title}>{item.title}</Text>
-        {item.deadline && (
-          <Text style={styles.deadline}>
-            Deadline: {new Date(item.deadline).toLocaleDateString()}
+    <Swipeable
+      renderRightActions={() => (
+        <View style={styles.editButton}>
+          <Text style={styles.editButtonText} onPress={() => onEdit(item.id)}>
+            Edit
           </Text>
-        )}
-      </View>
-    </View>
+        </View>
+      )}
+    >
+      <TouchableOpacity onPress={() => checkedOnOff(item.id)}>
+        <View style={styles.container}>
+          <Checkbox
+            status={item.completed ? 'checked' : 'unchecked'}
+            onPress={() => checkedOnOff(item.id)}
+            color="green"
+          />
+          <View style={styles.itemContainer}>
+            <Text style={styles.title}>{item.title}</Text>
+            {item.deadline && (
+              <Text style={styles.deadline}>
+                Deadline: {new Date(item.deadline).toLocaleDateString()}
+              </Text>
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
   );
 };
 
@@ -38,6 +51,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
     color: 'red',
+  },
+  editButton: {
+    backgroundColor: 'lightgray',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 75,
+  },
+  editButtonText: {
+    color: 'white',
   },
 });
 

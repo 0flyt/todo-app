@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import TaskList from '../components/TaskList';
 import AddTaskButton from '../components/AddTaskButton';
 import TaskInput from '../components/TaskInput';
+import IntroductionModal from '../components/IntroductionModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, IconButton } from 'react-native-paper';
 
@@ -86,6 +87,7 @@ const TaskListScreen = ({ navigation }) => {
 
   return (
     <View styles={styles.container}>
+      <IntroductionModal />
       <TaskInput
         value={task}
         onChangeText={setTask}
