@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import TaskList from '../components/TaskList';
 import AddTaskButton from '../components/AddTaskButton';
@@ -6,6 +6,8 @@ import TaskInput from '../components/TaskInput';
 import IntroductionModal from '../components/IntroductionModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, IconButton } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 
 const TaskListScreen = ({ navigation }) => {
   const [task, setTask] = useState('');
@@ -25,28 +27,31 @@ const TaskListScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    const getTaskData = async () => {
-      try {
-        const storedData = await AsyncStorage.getItem('tasks');
-        if (storedData) {
-          setTasks(JSON.parse(storedData));
-        } else {
-          const response = await fetch(
-            'https://raw.githubusercontent.com/0flyt/todo-app/json-data/tasks.json'
-          );
-          const data = await response.json();
-          setTasks(data);
-          await AsyncStorage.setItem('tasks', JSON.stringify(data));
-        }
-      } catch (error) {
-        console.error('Failed loading data', error);
-      } finally {
-        setLoading(false);
+  const getTaskData = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('tasks');
+      if (storedData) {
+        setTasks(JSON.parse(storedData));
+      } else {
+        const response = await fetch(
+          'https://raw.githubusercontent.com/0flyt/todo-app/json-data/tasks.json'
+        );
+        const data = await response.json();
+        setTasks(data);
+        await AsyncStorage.setItem('tasks', JSON.stringify(data));
       }
-    };
-    getTaskData();
-  }, []);
+    } catch (error) {
+      console.error('Failed loading data', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getTaskData();
+    }, [])
+  );
 
   const makeId = () => {
     return Math.random().toString(36).substring(2, 9);
@@ -85,6 +90,10 @@ const TaskListScreen = ({ navigation }) => {
     return tasks.sort((a, b) => a.completed - b.completed);
   };
 
+  const onEdit = (taskId) => {
+    navigation.navigate('Edit', { taskId: taskId });
+  };
+
   return (
     <View styles={styles.container}>
       <IntroductionModal />
@@ -95,9 +104,20 @@ const TaskListScreen = ({ navigation }) => {
         setDeadline={setDeadline}
       />
       <AddTaskButton onPress={() => addTask(task)} />
-      <TaskList tasks={sortTasks(tasks)} checkedOnOff={checkedOnOff} />
+      <TaskList
+        tasks={sortTasks(tasks)}
+        checkedOnOff={checkedOnOff}
+        onEdit={onEdit}
+      />
     </View>
   );
+};
+
+TaskListScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    setOptions: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({

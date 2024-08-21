@@ -2,16 +2,18 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
 
 const TaskItem = ({ item, checkedOnOff, onEdit }) => {
   return (
     <Swipeable
       renderRightActions={() => (
-        <View style={styles.editButton}>
-          <Text style={styles.editButtonText} onPress={() => onEdit(item.id)}>
-            Edit
-          </Text>
-        </View>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => onEdit(item.id)}
+        >
+          <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
       )}
     >
       <TouchableOpacity onPress={() => checkedOnOff(item.id)}>
@@ -33,6 +35,17 @@ const TaskItem = ({ item, checkedOnOff, onEdit }) => {
       </TouchableOpacity>
     </Swipeable>
   );
+};
+
+TaskItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    deadline: PropTypes.string,
+  }).isRequired,
+  checkedOnOff: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

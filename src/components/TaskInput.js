@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Button, Platform } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import PropTypes from 'prop-types';
 
 const TaskInput = ({ value, onChangeText, deadline, setDeadline }) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -34,6 +35,13 @@ const TaskInput = ({ value, onChangeText, deadline, setDeadline }) => {
       )}
     </View>
   );
+};
+
+TaskInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChangeText: PropTypes.func.isRequired,
+  deadline: PropTypes.instanceOf(Date),
+  setDeadline: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

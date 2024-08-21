@@ -21,7 +21,7 @@ const SettingsScreen = () => {
     try {
       await AsyncStorage.clear();
       Alert.alert('Storage data deleted!');
-    } catch (e) {
+    } catch {
       Alert.alert('Something went wrong! Storage data not deleted.');
     }
     hideDialog();
