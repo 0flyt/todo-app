@@ -15,23 +15,30 @@
   },
   {
     "id": 3,
-    "title": "Läs klart Hail Mary",
+    "title": "Lämna in projektet",
     "completed": false,
-    "createdAt": "2024-08-12T15:45:00Z",
-    "deadline": "2024-08-30T21:00:00Z"
+    "createdAt": "2024-08-11T12:30:00Z",
+    "deadline": "2024-08-25T23:59:00Z"
   },
   {
     "id": 4,
+    "title": "Kontrollera om projektet behöver kompletteras",
+    "completed": false,
+    "createdAt": "2024-08-12T15:45:00Z",
+    "deadline": "2024-09-15T21:00:00Z"
+  },
+  {
+    "id": 5,
     "title": "Städa hemma",
     "completed": false,
     "createdAt": "2024-08-13T09:00:00Z",
     "deadline": null
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "Gå till gymmet",
     "completed": false,
     "createdAt": "2024-08-14T07:15:00Z",
-    "deadline": "2024-08-18T20:00:00Z"
+    "deadline": null
   }
 ]
