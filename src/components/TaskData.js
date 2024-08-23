@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TaskContext from '../context/TaskContext';
+import propTypes from 'prop-types';
 
 const TaskData = ({ children }) => {
   const [tasks, setTasks] = useState([]);
@@ -37,7 +38,7 @@ const TaskData = ({ children }) => {
       await AsyncStorage.setItem('tasks', JSON.stringify(newTasks));
       setTasks(newTasks);
     } catch (error) {
-      console.error('Error saving tasks:', error);
+      console.error('Could not save the task:', error);
     }
   };
 
@@ -46,6 +47,10 @@ const TaskData = ({ children }) => {
       {children}
     </TaskContext.Provider>
   );
+};
+
+TaskData.propTypes = {
+  children: propTypes.node.isRequired,
 };
 
 export default TaskData;

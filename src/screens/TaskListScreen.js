@@ -82,6 +82,16 @@ const TaskListScreen = ({ navigation }) => {
     AsyncStorage.setItem('tasks', JSON.stringify(newTasks));
   };
 
+  const deleteTask = async (taskId) => {
+    try {
+      const newTasks = tasks.filter((task) => task.id !== taskId);
+      setTasks(newTasks);
+      await AsyncStorage.setItem('tasks', JSON.stringify(newTasks));
+    } catch (error) {
+      console.error('Could not delete the task. Pray and try again.', error);
+    }
+  };
+
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
@@ -108,6 +118,7 @@ const TaskListScreen = ({ navigation }) => {
         tasks={sortTasks(tasks)}
         checkedOnOff={checkedOnOff}
         onEdit={onEdit}
+        onDelete={deleteTask}
       />
     </View>
   );

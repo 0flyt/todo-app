@@ -1,15 +1,20 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import TaskItem from './TaskItem';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
-const TaskList = ({ tasks, checkedOnOff, onEdit }) => {
+const TaskList = ({ tasks, checkedOnOff, onEdit, onDelete }) => {
   return (
     <FlatList
       data={tasks}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <TaskItem item={item} checkedOnOff={checkedOnOff} onEdit={onEdit} />
+        <TaskItem
+          item={item}
+          checkedOnOff={checkedOnOff}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       )}
       contentContainerStyle={styles.container}
     />
@@ -17,16 +22,17 @@ const TaskList = ({ tasks, checkedOnOff, onEdit }) => {
 };
 
 TaskList.propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired,
-      deadline: PropTypes.string,
+  tasks: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.string.isRequired,
+      title: propTypes.string.isRequired,
+      completed: propTypes.bool.isRequired,
+      deadline: propTypes.string,
     })
   ).isRequired,
-  checkedOnOff: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  checkedOnOff: propTypes.func.isRequired,
+  onEdit: propTypes.func.isRequired,
+  onDelete: propTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

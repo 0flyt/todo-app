@@ -2,17 +2,25 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
-const TaskItem = ({ item, checkedOnOff, onEdit }) => {
+const TaskItem = ({ item, checkedOnOff, onEdit, onDelete }) => {
   return (
     <Swipeable
-      renderRightActions={() => (
+      renderLeftActions={() => (
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => onEdit(item.id)}
         >
           <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+      )}
+      renderRightActions={() => (
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => onDelete(item.id)}
+        >
+          <Text style={styles.deleteButtonText}>Delete</Text>
         </TouchableOpacity>
       )}
     >
@@ -38,14 +46,15 @@ const TaskItem = ({ item, checkedOnOff, onEdit }) => {
 };
 
 TaskItem.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    deadline: PropTypes.string,
+  item: propTypes.shape({
+    id: propTypes.string.isRequired,
+    title: propTypes.string.isRequired,
+    completed: propTypes.bool.isRequired,
+    deadline: propTypes.string,
   }).isRequired,
-  checkedOnOff: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  checkedOnOff: propTypes.func.isRequired,
+  onEdit: propTypes.func.isRequired,
+  onDelete: propTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -72,6 +81,15 @@ const styles = StyleSheet.create({
     width: 75,
   },
   editButtonText: {
+    color: 'white',
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 75,
+  },
+  deleteButtonText: {
     color: 'white',
   },
 });

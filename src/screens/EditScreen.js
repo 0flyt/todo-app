@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, Button, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Text,
+  Platform,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const EditScreen = ({ route, navigation }) => {
   const { taskId } = route.params;
   const [task, setTask] = useState(null);
   const [newTitle, setNewTitle] = useState('');
+  const [newDeadline, setNewDeadline] = useState(null);
+  const [showPicker, setShowPicker] = useState(false);
 
   useEffect(() => {
     const loadTask = async () => {
@@ -16,8 +26,14 @@ const EditScreen = ({ route, navigation }) => {
         const taskToEdit = tasks.find((task) => task.id === taskId);
         setTask(taskToEdit);
         setNewTitle(taskToEdit.title);
+        setNewDeadline(
+          taskToEdit.deadline ? new Date(taskToEdit.deadline) : null
+        );
       } catch (error) {
-        console.error('Failed to load task for editing', error);
+        console.error(
+          'Failed to load your task. Please call support :(',
+          error
+        );
       }
     };
 
@@ -28,14 +44,26 @@ const EditScreen = ({ route, navigation }) => {
     try {
       const storedTasks = await AsyncStorage.getItem('tasks');
       const tasks = storedTasks ? JSON.parse(storedTasks) : [];
-      const updatedTasks = tasks.map((t) =>
-        t.id === taskId ? { ...t, title: newTitle } : t
+      const updatedTasks = tasks.map((i) =>
+        i.id === taskId
+          ? {
+              ...i,
+              title: newTitle,
+              deadline: newDeadline ? newDeadline.toISOString() : null,
+            }
+          : i
       );
       await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
       navigation.goBack();
     } catch (error) {
       console.error('Failed to save task', error);
     }
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || newDeadline;
+    setShowPicker(Platform.OS === 'ios');
+    setNewDeadline(currentDate);
   };
 
   return (
@@ -46,7 +74,20 @@ const EditScreen = ({ route, navigation }) => {
             style={styles.input}
             value={newTitle}
             onChangeText={setNewTitle}
+            placeholder={task.title}
           />
+
+          <Button title="Select Deadline" onPress={() => setShowPicker(true)} />
+
+          {showPicker && (
+            <DateTimePicker
+              value={newDeadline || new Date()}
+              mode="date"
+              display="default"
+              onChange={onChange}
+            />
+          )}
+
           <Button title="Save" onPress={handleSave} />
         </>
       ) : (
