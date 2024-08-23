@@ -105,7 +105,7 @@ const TaskListScreen = ({ navigation }) => {
   };
 
   return (
-    <View styles={styles.container}>
+    <View style={styles.container}>
       <IntroductionModal />
       <TaskInput
         value={task}
@@ -114,6 +114,7 @@ const TaskListScreen = ({ navigation }) => {
         setDeadline={setDeadline}
       />
       <AddTaskButton onPress={() => addTask(task)} />
+
       <TaskList
         tasks={sortTasks(tasks)}
         checkedOnOff={checkedOnOff}

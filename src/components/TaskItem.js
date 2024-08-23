@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
 import { Swipeable } from 'react-native-gesture-handler';
 import propTypes from 'prop-types';
+import IosActionSheet from './iosActionSheet';
 
 const TaskItem = ({ item, checkedOnOff, onEdit, onDelete }) => {
   return (
@@ -39,6 +40,7 @@ const TaskItem = ({ item, checkedOnOff, onEdit, onDelete }) => {
               </Text>
             )}
           </View>
+          <IosActionSheet task={item} />
         </View>
       </TouchableOpacity>
     </Swipeable>

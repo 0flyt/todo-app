@@ -1,11 +1,23 @@
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, RefreshControl } from 'react-native';
 import TaskItem from './TaskItem';
 import propTypes from 'prop-types';
 
 const TaskList = ({ tasks, checkedOnOff, onEdit, onDelete }) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <FlatList
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       data={tasks}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (

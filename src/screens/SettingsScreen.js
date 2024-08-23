@@ -11,11 +11,11 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen = () => {
-  const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(false);
   const theme = useTheme();
 
-  const showConfirmDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
+  const showDialog = () => setShow(true);
+  const hideDialog = () => setShow(false);
 
   const clearStorage = async () => {
     try {
@@ -33,16 +33,16 @@ const SettingsScreen = () => {
         <List.Subheader>Settings</List.Subheader>
         <List.Item
           title="Clear all data"
-          description="Removes all tasks"
+          description="Wash your tasks away!"
           left={() => (
             <List.Icon icon="trash-can-outline" color={theme.colors.primary} />
           )}
-          onPress={showConfirmDialog}
+          onPress={showDialog}
         />
       </List.Section>
 
       <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog visible={show} onDismiss={hideDialog}>
           <Dialog.Title>Confirm</Dialog.Title>
           <Dialog.Content>
             <Paragraph>
